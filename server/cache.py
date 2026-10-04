@@ -9,6 +9,7 @@
 - 特征/检测/分割/风格等单图接口也统一走这里，天然获得缓存能力。
 """
 import hashlib
+import io
 import json
 import os
 import time
@@ -86,14 +87,21 @@ class ResultCache:
     # ------------------------------------------------------------------ 写
     def put(self, key, image, meta=None):
         """保存结果图并登记缓存，返回 result_id。"""
+        buf = io.BytesIO()
+        rgb = util.ensure_rgb(image)
+        rgb.save(buf, "PNG", optimize=True)
+        return self.put_bytes(key, buf.getvalue(), ".png", (rgb.size[0], rgb.size[1]), meta)
+
+    def put_bytes(self, key, data, suffix, size, meta=None):
+        """直接登记已编码好的结果字节（用于 GIF 等不能再转 PNG 的产物）。"""
         result_id = uuid.uuid4().hex
-        file_name = result_id + ".png"
+        file_name = result_id + suffix
         dest = os.path.join(config.RESULTS_DIR, file_name)
 
-        rgb = util.ensure_rgb(image)
         # 原子写：先写临时文件再 rename
         tmp = dest + ".tmp"
-        rgb.save(tmp, "PNG", optimize=True)
+        with open(tmp, "wb") as f:
+            f.write(data)
         os.replace(tmp, dest)
 
         entry = {
@@ -101,8 +109,8 @@ class ResultCache:
             "key": key,
             "file": file_name,
             "size_bytes": os.path.getsize(dest),
-            "width": rgb.size[0],
-            "height": rgb.size[1],
+            "width": size[0],
+            "height": size[1],
             "meta": meta or {},
             "created_at": now_iso(),
             "last_access": time.time(),

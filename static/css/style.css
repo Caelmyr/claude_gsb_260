@@ -229,3 +229,31 @@ input[type="color"] { width: 100%; height: 34px; border: 1px solid var(--border-
 
 .keypoint-stats { font-size: 12px; color: var(--text-dim); }
 .desc-preview { font-family: var(--mono); font-size: 11px; color: var(--text-faint); word-break: break-all; max-height: 90px; overflow: auto; background: var(--bg-soft); padding: 8px; border-radius: var(--radius-sm); }
+
+/* ---------- GIF 动图 ---------- */
+.tabs { display: flex; gap: 6px; }
+.tab {
+  padding: 7px 16px; font-size: 13px; border-radius: 8px; cursor: pointer;
+  background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim);
+}
+.tab:hover { border-color: var(--border-strong); color: var(--text); }
+.tab.active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
+
+.gif-frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.gif-frame {
+  border: 1px solid var(--border); border-radius: 8px; background: var(--bg-soft);
+  padding: 8px; cursor: pointer; transition: border-color .12s, box-shadow .12s;
+}
+.gif-frame:hover { border-color: var(--border-strong); }
+.gif-frame.selected { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.gif-frame img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: repeating-conic-gradient(#2a3038 0% 25%, #222830 0% 50%) 50% / 14px 14px; border-radius: 6px; display: block; }
+.gif-frame-idx { font-size: 11px; color: var(--text-dim); margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
+.gif-frame-ctl { margin-top: 6px; }
+.gif-frame-name { font-size: 11px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.gif-frame-ctl input[type="number"] { width: 64px; padding: 3px 6px; }
+
+.gif-busy { position: relative; margin-top: 14px; }
+.gif-busy .loading {
+  background: var(--bg-card); border: 1px solid var(--accent); border-radius: var(--radius);
+  padding: 14px; text-align: center; color: var(--accent); font-size: 13px;
+}

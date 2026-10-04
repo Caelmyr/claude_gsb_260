@@ -16,6 +16,7 @@ RESULTS_DIR = os.path.join(DATA_DIR, "results")      # 处理结果图
 THUMBS_DIR = os.path.join(DATA_DIR, "thumbnails")    # 预览缩略图
 CACHE_DIR = os.path.join(DATA_DIR, "cache")          # 结果缓存（与 results 统一）
 META_DIR = os.path.join(DATA_DIR, "metadata")        # JSON 元数据
+GIF_SESSIONS_DIR = os.path.join(DATA_DIR, "gif_sessions")  # GIF 拆帧会话（帧 PNG + 会话 JSON）
 
 IMAGES_JSON = os.path.join(META_DIR, "images.json")
 PIPELINES_JSON = os.path.join(META_DIR, "pipelines.json")
@@ -41,6 +42,10 @@ CACHE_MAX_ENTRIES = 400
 PIPELINE_MAX_VERSIONS = 20        # 每条流水线保留的版本快照数
 HISTORY_MAX_ENTRIES = 500         # 历史记录上限（超出裁掉最旧）
 
+GIF_MAX_FRAMES = 300              # 拆帧/合帧帧数上限（控制内存）
+GIF_DEFAULT_MAX_DIM = 1600        # 拆帧工作画布最长边（与算法工作副本一致）
+GIF_COMPOSE_MIN_FRAMES = 2        # 合成动图至少需要的静态帧数
+
 ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".webp"}
 
 # ---------------------------------------------------------------------------
@@ -48,6 +53,7 @@ ALLOWED_EXTENSIONS = {".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".webp"}
 # ---------------------------------------------------------------------------
 _ALL_DIRS = [
     DATA_DIR, IMAGES_DIR, RESULTS_DIR, THUMBS_DIR, CACHE_DIR, META_DIR,
+    GIF_SESSIONS_DIR,
 ]
 
 
