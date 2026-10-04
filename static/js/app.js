@@ -2,6 +2,7 @@
 (function () {
   const NAV = [
     { name: "upload", ico: "🖼️", title: "图像管理" },
+    { name: "gif", ico: "🎞️", title: "GIF 动图" },
     { name: "pipeline", ico: "🔗", title: "滤镜链编辑器" },
     { name: "features", ico: "✨", title: "特征提取" },
     { name: "detection", ico: "🎯", title: "目标检测与标注" },

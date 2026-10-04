@@ -100,9 +100,43 @@ class ResultCache:
             "result_id": result_id,
             "key": key,
             "file": file_name,
+            "mime": "image/png",
             "size_bytes": os.path.getsize(dest),
             "width": rgb.size[0],
             "height": rgb.size[1],
+            "meta": meta or {},
+            "created_at": now_iso(),
+            "last_access": time.time(),
+        }
+
+        def _upd(doc):
+            doc = dict(doc)
+            doc[key] = entry
+            return doc
+
+        self.store.update(_upd)
+        self.evict_if_needed()
+        return result_id
+
+    def put_bytes(self, key, data, file_ext="gif", mime="image/gif",
+                  width=None, height=None, meta=None):
+        """保存已经编码好的结果文件（GIF 合成结果走这里，保留逐帧时长语义）。
+
+        返回 result_id。与 put 共用同一本 cache.json 与淘汰逻辑。
+        """
+        result_id = uuid.uuid4().hex
+        file_name = result_id + "." + file_ext.lstrip(".")
+        dest = os.path.join(config.RESULTS_DIR, file_name)
+        atomic_write_bytes(dest, data)
+
+        entry = {
+            "result_id": result_id,
+            "key": key,
+            "file": file_name,
+            "mime": mime,
+            "size_bytes": len(data),
+            "width": width,
+            "height": height,
             "meta": meta or {},
             "created_at": now_iso(),
             "last_access": time.time(),

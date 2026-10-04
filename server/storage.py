@@ -103,6 +103,14 @@ class JsonStore:
         self.lock = threading.RLock()
         self._ensure()
 
+    def reload(self, path, default=None):
+        """切换到另一个 JSON 文件（主要供测试重定向 DATA_DIR 后重建绑定）。"""
+        self.path = path
+        if default is not None:
+            self.default = default
+        self._ensure()
+        return self
+
     def _ensure(self):
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
         if not os.path.exists(self.path):

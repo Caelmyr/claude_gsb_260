@@ -229,3 +229,48 @@ input[type="color"] { width: 100%; height: 34px; border: 1px solid var(--border-
 
 .keypoint-stats { font-size: 12px; color: var(--text-dim); }
 .desc-preview { font-family: var(--mono); font-size: 11px; color: var(--text-faint); word-break: break-all; max-height: 90px; overflow: auto; background: var(--bg-soft); padding: 8px; border-radius: var(--radius-sm); }
+
+/* ---------- GIF 动图工作台 ---------- */
+.gif-tabs { gap: 6px; margin-bottom: 14px; }
+.gif-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.gif-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+@media (max-width: 1100px) { .gif-split-grid { grid-template-columns: 1fr; } }
+
+/* 合成：有序帧列表 */
+.gif-frame-list { display: flex; flex-direction: column; gap: 8px; max-height: 56vh; overflow-y: auto; padding-right: 4px; }
+.gif-frame-item {
+  display: flex; align-items: center; gap: 10px; padding: 7px 9px;
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.gif-frame-item .gif-idx { font-family: var(--mono); font-size: 11px; color: var(--text-faint); width: 30px; flex: none; }
+.gif-frame-item > img { width: 52px; height: 40px; object-fit: cover; border-radius: 5px; background: #0b0f15; flex: none; }
+.gif-frame-info { flex: 1; min-width: 0; }
+.gif-dur-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-faint); margin-top: 3px; }
+.gif-dur-row input[type="number"] { width: 76px; padding: 3px 6px; font-size: 12px; }
+.gif-frame-ops { display: flex; gap: 4px; flex: none; }
+
+.gif-preview { max-width: 100%; max-height: 46vh; image-rendering: auto; background: repeating-conic-gradient(#222c3b 0% 25%, #1b2330 0% 50%) 50% / 16px 16px; }
+.gif-meta { width: 100%; margin-top: 10px; font-size: 12px; color: var(--text-dim); }
+.gif-durs { font-family: var(--mono); font-size: 11px; color: var(--text-faint); margin-top: 4px; word-break: break-all; }
+.gif-meta .warn { color: var(--amber); margin-top: 6px; font-size: 12px; }
+
+/* 拆帧：拖放区 */
+.gif-drop {
+  margin-top: 12px; border: 1.5px dashed var(--border-strong); border-radius: var(--radius);
+  padding: 26px; text-align: center; color: var(--text-faint); font-size: 13px; transition: border-color .12s, background .12s;
+}
+.gif-drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+/* 拆帧：逐帧编辑网格 */
+.gif-frames-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px; }
+.gif-edit-card {
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px; display: flex; flex-direction: column; gap: 6px;
+}
+.gif-edit-card.edited { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.gif-edit-head { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: var(--text-faint); font-family: var(--mono); }
+.tag-edited { color: var(--accent); font-weight: 600; font-family: inherit; }
+.gif-edit-imgs { position: relative; }
+.gif-edit-imgs img { width: 100%; aspect-ratio: 4/3; object-fit: contain; background: #0b0f15; border-radius: 5px; display: block; }
+.gif-edit-ops { display: flex; gap: 6px; }
+.gif-edit-ops .btn { flex: 1; }
